@@ -1,5 +1,13 @@
 #端口号配置
 server:
-  port: 8091
+  port: 8092
 
+spring:
+  application:
+    name: msc_client
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:8093/eureka/,http://eureka2:8094/eureka/
    

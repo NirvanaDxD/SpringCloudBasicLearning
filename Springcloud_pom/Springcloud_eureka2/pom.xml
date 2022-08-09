@@ -5,7 +5,7 @@
     <artifactId>Springcloud_pom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>Springcloud_eureka</artifactId>
+  <artifactId>Springcloud_eureka2</artifactId>
   <dependencies>
         <!-- eureka-server -->
         <dependency>

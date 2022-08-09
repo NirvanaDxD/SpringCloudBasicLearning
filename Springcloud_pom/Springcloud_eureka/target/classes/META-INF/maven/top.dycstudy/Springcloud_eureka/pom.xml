@@ -7,13 +7,11 @@
   </parent>
   <artifactId>Springcloud_eureka</artifactId>
   <dependencies>
- 
         <!-- eureka-server -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
-        
         <!-- 热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

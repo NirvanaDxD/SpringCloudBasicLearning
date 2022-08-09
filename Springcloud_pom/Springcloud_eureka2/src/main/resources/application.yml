@@ -1,16 +1,16 @@
 server:
-  port: 8093
+  port: 8094
   
 spring:
   application:
-    name: Eureka_server
+    name: Eureka_server2
   
 eureka:
-  instance:
-    hostname: eureka1
+  instance: 
+      hostname: eureka2
   client: 
     registerWithEureka: true
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://localhost:8094/eureka/
+      defaultZone: http://localhost:8093/eureka/
     
