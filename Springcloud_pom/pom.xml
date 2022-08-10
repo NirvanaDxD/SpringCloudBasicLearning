@@ -72,5 +72,6 @@
 		<module>Springcloud_client</module>
 		<module>Springcloud_eureka</module>
 		<module>Springcloud_eureka2</module>
+		<module>Springcloud_eureka3</module>
 	</modules>
 </project>

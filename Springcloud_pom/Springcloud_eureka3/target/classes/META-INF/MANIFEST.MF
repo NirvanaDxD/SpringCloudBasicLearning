@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Springcloud_eureka3
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: lexed
+Implementation-Vendor-Id: top.dycstudy
+Build-Jdk: 1.8.0_112
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/Springcloud_pom/Springcloud_eureka3
+Created-By: Maven Integration for Eclipse
+
