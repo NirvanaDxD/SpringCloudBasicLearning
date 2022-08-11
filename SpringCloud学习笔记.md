@@ -876,3 +876,124 @@ eureka3
 
 ![image-20220810101157174](https://raw.githubusercontent.com/NirvanaDxD/PicGoSave/main/202208101011548.png)
 
+
+
+## 第七阶段Ribbon负载均衡
+
+### 1.创建一个服务提供者，设置端口号为8096
+
+```properties
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/msc_test
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: msc-server		#此处设置的应用名需要和先前的服务端相同
+
+#端口号配置
+server:
+  port: 8096
+
+mybatis:
+  type-aliases-package: top.dycstudy.pojo
+#sql 信息打印到控制台输出
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:8093/eureka/,http://eureka2:8094/eureka/,http://eureka3:8095/eureka/
+
+```
+
+### 2.开启负载均衡
+
+因为 Eureka 中已经集成了 Ribbon，所以我们无需引入新的依赖。直接修改代码： 在 RestTemplate 的配置方法上添加 @LoadBalanced 注解，修改控制器代码。
+
+```java
+@SpringBootApplication
+@EnableEurekaClient
+public class run {
+	public static void main(String[] args) {
+		SpringApplication.run(run.class, args);
+	}	
+	//注入RestTemplate
+	@LoadBalanced	//开启负载均衡
+	@Bean	
+	public RestTemplate restTemplate(){
+		return new RestTemplate();
+	}
+}
+
+```
+
+### 3.修改获取资源路径
+
+```java
+@RestController
+@RequestMapping("client")
+public class GUserController {
+	//注入restTemplate模板工具
+	@Autowired
+	private RestTemplate restTemplate;
+	//根据id获取信息
+	@GetMapping("{id}")
+	public UserVO queryOneUser(@PathVariable("id")Integer id){
+		//获取host和port注册url
+		String S_url = "http://msc-server/index/"+id;
+		//提交请求获取相应数据
+		UserVO uv = restTemplate.getForObject(S_url, UserVO.class);
+		System.out.println(uv);
+		System.out.println(S_url);
+		return uv;
+	}
+	//获取全部信息
+	@GetMapping("findAll")
+	public List<UserVO> findAll(){
+		//获取host和port注册url
+		String S_url = "http://msc-server/findAll/";
+		//提交请求获取相应数据
+		List<UserVO> list = restTemplate.getForObject(S_url,List.class);
+		System.out.println(list);
+		System.out.println(S_url);
+		return list;
+	}	
+}
+```
+
+11行和22行的资源路径对应需要访问的应用服务名称
+
+### 4.测试
+
+![image-20220811091439317](https://raw.githubusercontent.com/NirvanaDxD/PicGoSave/main/202208110918061.png)
+
+![image-20220811091423657](https://raw.githubusercontent.com/NirvanaDxD/PicGoSave/main/202208110918906.png)
+
+### bug
+
+#### 在搭建过程中遇到一个bug
+
+![image-20220811091901451](https://raw.githubusercontent.com/NirvanaDxD/PicGoSave/main/202208110919962.png)
+
+```
+提示Request URI does not contain a valid hostname: http://MSC_SERVER/index/1
+	请求URI不包含有效的主机名：http://MSC_SERVER/index/1
+```
+
+#### 错误原因分析
+
+之前创建服务提供者的时候自定义的应用名称为msc_server
+
+在应用名称中出现下划线，负载均衡就无法解析，所以将msc_server改为msc-server即可
+
+
+
+
+
+
+
+
+
