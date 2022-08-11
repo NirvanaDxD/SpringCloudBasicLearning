@@ -73,5 +73,6 @@
 		<module>Springcloud_eureka</module>
 		<module>Springcloud_eureka2</module>
 		<module>Springcloud_eureka3</module>
+		<module>Springcloud_server2</module>
 	</modules>
 </project>

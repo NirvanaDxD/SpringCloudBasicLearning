@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: msc_client
+    name: msc-client
   
 eureka:
   client:

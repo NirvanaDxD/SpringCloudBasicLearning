@@ -5,7 +5,7 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
   application:
-    name: msc_server
+    name: msc-server
 
 #端口号配置
 server:

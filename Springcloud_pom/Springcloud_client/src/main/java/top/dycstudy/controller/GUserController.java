@@ -24,7 +24,7 @@ public class GUserController {
 	@GetMapping("{id}")
 	public UserVO queryOneUser(@PathVariable("id")Integer id){
 		//获取host和port注册url
-		String S_url = "http://localhost:8091/index/"+id;
+		String S_url = "http://msc-server/index/"+id;
 		//提交请求获取相应数据
 		UserVO uv = restTemplate.getForObject(S_url, UserVO.class);
 		System.out.println(uv);
@@ -35,7 +35,7 @@ public class GUserController {
 	@GetMapping("findAll")
 	public List<UserVO> findAll(){
 		//获取host和port注册url
-		String S_url = "http://localhost:8081/findAll/";
+		String S_url = "http://msc-server/findAll/";
 		//提交请求获取相应数据
 		List<UserVO> list = restTemplate.getForObject(S_url,List.class);
 		System.out.println(list);
