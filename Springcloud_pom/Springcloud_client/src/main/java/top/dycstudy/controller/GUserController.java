@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import top.dycstudy.pojo.UserVO;
 
 
 @RestController
 @RequestMapping("client")
+@DefaultProperties(defaultFallback = "defaultFallBack")
 public class GUserController {
 	
 	//注入restTemplate模板工具
@@ -22,16 +25,24 @@ public class GUserController {
 	private RestTemplate restTemplate;
 	
 	@GetMapping("{id}")
-	public UserVO queryOneUser(@PathVariable("id")Integer id){
+	@HystrixCommand
+	public String queryOneUser(@PathVariable("id")Integer id){
+		if(id==2){
+			throw new RuntimeException("sagfasgf2");
+		}
 		//获取host和port注册url
 		String S_url = "http://msc-server/index/"+id;
 		//提交请求获取相应数据
-		UserVO uv = restTemplate.getForObject(S_url, UserVO.class);
+		String uv = restTemplate.getForObject(S_url, String.class);
 		System.out.println(uv);
 		System.out.println(S_url);
 		return uv;
 	}
+	public String defaultFallBack(){
+		return "网络拥挤无法访问";
+	}
 	
+	@HystrixCommand
 	@GetMapping("findAll")
 	public List<UserVO> findAll(){
 		//获取host和port注册url
